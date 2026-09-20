@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://c67ugr61anxs5"]
+
+[ext_resource type="Script" uid="uid://ymut8k4du0w2" path="res://scenes/game.gd" id="1_yqjtg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_gs5l0"]
+font_size = 100
+
+[node name="Game" type="Node2D" unique_id=1413166523]
+script = ExtResource("1_yqjtg")
+
+[node name="Label" type="Label" parent="." unique_id=1819275134]
+offset_left = -249.0
+offset_top = -339.0
+offset_right = -151.0
+offset_bottom = -202.0
+text = "0"
+label_settings = SubResource("LabelSettings_gs5l0")
+metadata/_edit_use_anchors_ = true
+
+[node name="ProgressBar" type="ProgressBar" parent="Label" unique_id=1158446976]
+layout_mode = 0
+offset_left = -458.0
+offset_top = -154.0
+offset_right = 522.0
+offset_bottom = -11.0
+step = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="Label" unique_id=1310386993]
+layout_mode = 0
+offset_left = -371.0
+offset_top = 149.0
+offset_right = 436.0
+offset_bottom = 303.0
+text = "klikaj kurwo"
+metadata/_edit_use_anchors_ = true
+
+[node name="UpgradesButton" type="Button" parent="." unique_id=1291184351]
+offset_left = 305.0
+offset_top = -524.0
+offset_right = 482.0
+offset_bottom = -347.0
+text = "upgrade"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1697470767]
+
+[node name="UpgradesWindow" type="Node2D" parent="." unique_id=1684231191]
+visible = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="UpgradesWindow" unique_id=1185688430]
+visible = false
+
+[node name="UpgradesPanel" type="PanelContainer" parent="UpgradesWindow/CanvasLayer" unique_id=647364816]
+custom_minimum_size = Vector2(800, 600)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -300.0
+offset_right = 400.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainVBox" type="VBoxContainer" parent="UpgradesWindow/CanvasLayer/UpgradesPanel" unique_id=1684725906]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox" unique_id=2094725511]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/Header" unique_id=195618045]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ulepszenia"
+
+[node name="CloseButton" type="Button" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/Header" unique_id=479724489]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "X"
+
+[node name="HSeparator" type="HSeparator" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox" unique_id=-982985249]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox" unique_id=-572152232]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="UpgradesList" type="VBoxContainer" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/ScrollContainer" unique_id=-107364001]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="UpgradeButton" type="Button" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/ScrollContainer/UpgradesList" unique_id=837462951]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Mocniejszy klik — Koszt: 15"
+
+[connection signal="button_down" from="Label/Button" to="." method="_on_button_button_down"]
+[connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
+[connection signal="pressed" from="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/Header/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/ScrollContainer/UpgradesList/UpgradeButton" to="." method="_on_upgrade_button_pressed"]

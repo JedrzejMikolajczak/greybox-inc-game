@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://qe457st5tkno"]
+
+[ext_resource type="Texture2D" uid="uid://dmm6s0hun8o81" path="res://sprites/random_sprite.png" id="1_iqtpt"]
+[ext_resource type="Script" path="res://scenes/settingsUI.gd" id="2_settingsui"]
+
+[node name="SettingsUiWindow" type="Control" unique_id=1055176170]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_settingsui")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1677343717]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_iqtpt")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect" unique_id=553387744]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -423.5
+offset_top = -481.5
+offset_right = 423.5
+offset_bottom = 481.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 100
+
+[node name="Button" type="Button" parent="TextureRect/VBoxContainer" unique_id=1175421711]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+text = "test
+"
+
+[node name="Button2" type="Button" parent="TextureRect/VBoxContainer" unique_id=1990027621]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+text = "test
+"
+
+[node name="Button" type="Button" parent="TextureRect" unique_id=1878908793]
+layout_mode = 1
+offset_right = 185.0
+offset_bottom = 185.0
+text = "Close"
+
+[connection signal="pressed" from="TextureRect/Button" to="." method="_on_close_pressed"]

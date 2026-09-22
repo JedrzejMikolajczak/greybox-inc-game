@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://c67ugr61anxs5"]
 
 [ext_resource type="Script" uid="uid://ymut8k4du0w2" path="res://scenes/game.gd" id="1_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://qe457st5tkno" path="res://scenes/settingsUI.tscn" id="2_yqjtg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gs5l0"]
 font_size = 100
+
+[sub_resource type="Theme" id="Theme_gs5l0"]
 
 [node name="Game" type="Node2D" unique_id=1413166523]
 script = ExtResource("1_yqjtg")
@@ -63,6 +66,7 @@ offset_right = 400.0
 offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_gs5l0")
 
 [node name="MainVBox" type="VBoxContainer" parent="UpgradesWindow/CanvasLayer/UpgradesPanel" unique_id=1684725906]
 layout_mode = 2
@@ -94,12 +98,44 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="UpgradeButton" type="Button" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/ScrollContainer/UpgradesList" unique_id=837462951]
-custom_minimum_size = Vector2(0, 48)
+[node name="QuickUpgradesUSD" type="VBoxContainer" parent="." unique_id=1602839447]
+offset_left = 550.0
+offset_top = -200.0
+offset_right = 950.0
+offset_bottom = -140.0
+theme_override_constants/separation = 8
+
+[node name="UsdLabel" type="Label" parent="QuickUpgradesUSD" unique_id=1602839448]
 layout_mode = 2
-text = "Mocniejszy klik — Koszt: 15"
+text = "USD: 0"
+
+[node name="UsdButtonsList" type="VBoxContainer" parent="QuickUpgradesUSD" unique_id=1602839449]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="UsdButton" type="Button" parent="." unique_id=1602839450]
+offset_left = 550.0
+offset_top = -260.0
+offset_right = 950.0
+offset_bottom = -210.0
+text = "zarabiaj USD"
+
+[node name="Settings" type="Node2D" parent="." unique_id=674701406]
+
+[node name="SettingsNavBtn" type="Node2D" parent="Settings" unique_id=1809949935]
+
+[node name="Button" type="Button" parent="Settings/SettingsNavBtn" unique_id=20144495]
+offset_left = -959.0
+offset_top = -539.0
+offset_right = -781.0
+offset_bottom = -361.0
+text = "Settings"
+
+[node name="SettingsUiWindow" parent="Settings" unique_id=1055176170 instance=ExtResource("2_yqjtg")]
+visible = false
 
 [connection signal="button_down" from="Label/Button" to="." method="_on_button_button_down"]
 [connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
 [connection signal="pressed" from="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/Header/CloseButton" to="." method="_on_close_button_pressed"]
-[connection signal="pressed" from="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/ScrollContainer/UpgradesList/UpgradeButton" to="." method="_on_upgrade_button_pressed"]
+[connection signal="button_down" from="UsdButton" to="." method="_on_usd_button_down"]
+[connection signal="pressed" from="Settings/SettingsNavBtn/Button" to="." method="_on_button_pressed"]

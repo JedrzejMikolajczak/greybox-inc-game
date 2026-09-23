@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://c67ugr61anxs5"]
 
-[ext_resource type="Script" uid="uid://ymut8k4du0w2" path="res://scenes/game.gd" id="1_yqjtg"]
+[ext_resource type="Script" uid="uid://ymut8k4du0w2" path="res://scripts/game.gd" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://qe457st5tkno" path="res://scenes/settingsUI.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://dooweq2mty671" path="res://scenes/shooter_game.tscn" id="3_lnu2h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gs5l0"]
 font_size = 100
@@ -98,6 +99,54 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
+[node name="Settings" type="Node2D" parent="." unique_id=674701406]
+
+[node name="SettingsNavBtn" type="Node2D" parent="Settings" unique_id=1809949935]
+
+[node name="Button" type="Button" parent="Settings/SettingsNavBtn" unique_id=20144495]
+offset_left = -959.0
+offset_top = -539.0
+offset_right = -781.0
+offset_bottom = -361.0
+text = "Settings"
+
+[node name="SettingsUiWindow" parent="Settings" unique_id=1055176170 instance=ExtResource("2_yqjtg")]
+visible = false
+
+[node name="Minigra" type="Node2D" parent="." unique_id=1276844723]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Minigra" unique_id=1049621193]
+
+[node name="PanelContainer" type="PanelContainer" parent="Minigra/CanvasLayer" unique_id=1864243314]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -761.5
+offset_top = -413.5
+offset_right = 761.5
+offset_bottom = 413.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Minigra/CanvasLayer/PanelContainer" unique_id=1856082470]
+layout_mode = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Minigra/CanvasLayer/PanelContainer/SubViewportContainer" unique_id=670638517]
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 0
+
+[node name="world" parent="Minigra/CanvasLayer/PanelContainer/SubViewportContainer/SubViewport" unique_id=1033214409 instance=ExtResource("3_lnu2h")]
+
+[node name="Timer" type="Timer" parent="Minigra/CanvasLayer/PanelContainer/SubViewportContainer/SubViewport/world" unique_id=1788254774]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
 [node name="QuickUpgradesUSD" type="VBoxContainer" parent="." unique_id=1602839447]
 offset_left = 550.0
 offset_top = -200.0
@@ -113,29 +162,8 @@ text = "USD: 0"
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="UsdButton" type="Button" parent="." unique_id=1602839450]
-offset_left = 550.0
-offset_top = -260.0
-offset_right = 950.0
-offset_bottom = -210.0
-text = "zarabiaj USD"
-
-[node name="Settings" type="Node2D" parent="." unique_id=674701406]
-
-[node name="SettingsNavBtn" type="Node2D" parent="Settings" unique_id=1809949935]
-
-[node name="Button" type="Button" parent="Settings/SettingsNavBtn" unique_id=20144495]
-offset_left = -959.0
-offset_top = -539.0
-offset_right = -781.0
-offset_bottom = -361.0
-text = "Settings"
-
-[node name="SettingsUiWindow" parent="Settings" unique_id=1055176170 instance=ExtResource("2_yqjtg")]
-visible = false
-
 [connection signal="button_down" from="Label/Button" to="." method="_on_button_button_down"]
 [connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
 [connection signal="pressed" from="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/Header/CloseButton" to="." method="_on_close_button_pressed"]
-[connection signal="button_down" from="UsdButton" to="." method="_on_usd_button_down"]
 [connection signal="pressed" from="Settings/SettingsNavBtn/Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="Minigra/CanvasLayer/PanelContainer/SubViewportContainer/SubViewport/world/Timer" to="." method="_on_timer_timeout"]

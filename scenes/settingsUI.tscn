@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://qe457st5tkno"]
 
 [ext_resource type="Texture2D" uid="uid://dmm6s0hun8o81" path="res://sprites/random_sprite.png" id="1_iqtpt"]
-[ext_resource type="Script" path="res://scenes/settingsUI.gd" id="2_settingsui"]
+[ext_resource type="Script" uid="uid://cw2blc578nele" path="res://scripts/settingsUI.gd" id="2_settingsui"]
 
 [node name="SettingsUiWindow" type="Control" unique_id=1055176170]
 layout_mode = 3

@@ -8,8 +8,9 @@ const UpgradeButtonScene = preload("res://scenes/upgrade_button.tscn")
 var zl = 0
 var click_power = 20  # ile zł dostajesz za jedno kliknięcie
 
-var usd = 0
-var usd_click_power = 1  # ile USD dostajesz za jedno kliknięcie przycisku USD
+# USD trzymane jest w globalnym GameState (autoload) — dzięki temu minigierka
+# (shooter, osadzony w SubViewport) może dopisywać USD za zabitych wrogów,
+# nawet jeśli sama się resetuje po śmierci gracza.
 
 # --- Dane ulepszeń ---
 # To jest ta "tablica", z której dynamicznie tworzymy przyciski.
@@ -36,7 +37,9 @@ var usd_upgrades = [
 @onready var usd_label = $QuickUpgradesUSD/UsdLabel
 @onready var settingsWindow = $Settings/SettingsUiWindow
 @onready var progressBar = $Label/ProgressBar
-@onready var usd_button = $UsdButton
+@onready var minigameWindow = $Minigra/CanvasLayer/PanelContainer
+
+var minigame_opened = false
 
 
 # _ready() odpala się raz, gdy ta scena (Game) wchodzi do drzewa gry.
@@ -45,6 +48,8 @@ func _ready() -> void:
 	# ręcznie poukładane w scenie, tworzymy je z tablic zl_upgrades/usd_upgrades.
 	_spawn_upgrades(zl_upgrades, zl_upgrades_list, "zl")
 	_spawn_upgrades(usd_upgrades, usd_upgrades_list, "usd")
+	# Gdy minigierka (albo cokolwiek innego) zmieni GameState.usd, odśwież UI.
+	GameState.usd_changed.connect(func(_new_amount): _update_labels())
 	_update_labels()
 
 
@@ -68,7 +73,7 @@ func _spawn_upgrades(upgrades, container, currency) -> void:
 # kliknięty (i tak, i dla zł, i dla USD — bo oba typy łączymy z tą samą funkcją).
 func _on_upgrade_purchased(button) -> void:
 	# Sprawdzamy, jaką walutą płaci ten konkretny przycisk, i ile jej mamy
-	var balance = zl if button.currency == "zl" else usd
+	var balance = zl if button.currency == "zl" else GameState.usd
 
 	# Nie stać nas — nic nie rób
 	if balance < button.cost:
@@ -78,7 +83,7 @@ func _on_upgrade_purchased(button) -> void:
 	if button.currency == "zl":
 		zl -= button.cost
 	else:
-		usd -= button.cost
+		GameState.usd -= button.cost
 
 	# match to jak "switch" w innych językach — sprawdza upgrade_id
 	# i wykonuje efekt właściwy dla danego ulepszenia.
@@ -87,7 +92,7 @@ func _on_upgrade_purchased(button) -> void:
 		"click_power":
 			click_power += 1
 		"usd_click_power":
-			usd_click_power += 1
+			GameState.usd_per_kill += 1
 
 	# Powiedz przyciskowi, żeby podniósł swój poziom i podbił sobie cenę
 	button.level_up()
@@ -99,24 +104,24 @@ func _on_upgrade_purchased(button) -> void:
 func _update_labels() -> void:
 	$Label.set_text(str(zl))
 	$Label/ProgressBar.value = zl
-	usd_label.text = "USD: %d" % usd
-	# Przycisk "zarabiaj USD" odblokowuje się dopiero, gdy pasek postępu (zł) się napełni.
-	usd_button.disabled = progressBar.value < progressBar.max_value
+	usd_label.text = "USD: %d" % GameState.usd
+	# Minigierka (shooter) odblokowuje się raz, gdy pasek postępu (zł) się napełni
+	# — i zostaje otwarta, bez automatycznego zamykania czy resetowania.
+	if not minigame_opened and progressBar.value >= progressBar.max_value:
+		minigame_opened = true
+		minigameWindow.visible = true
+
 
 	# get_children() zwraca wszystkie dzieci kontenera — czyli wszystkie
 	# przyciski, które wcześniej stworzyliśmy w _spawn_upgrades()
 	for button in zl_upgrades_list.get_children():
 		button.update_statePLN(zl)
 	for button in usd_upgrades_list.get_children():
-		button.update_stateUSD(usd)
+		button.update_stateUSD(GameState.usd)
 
 
 func _on_button_button_down() -> void:
 	zl += click_power
-	_update_labels()
-
-func _on_usd_button_down() -> void:
-	usd += usd_click_power
 	_update_labels()
 
 func _on_upgrades_button_pressed() -> void:
@@ -127,3 +132,8 @@ func _on_close_button_pressed() -> void:
 
 func _on_button_pressed() -> void:
 	settingsWindow.visible = true
+
+
+func _on_timer_timeout() -> void:
+	progressBar.value = 0
+	$Minigra/CanvasLayer/PanelContainer.visible = false

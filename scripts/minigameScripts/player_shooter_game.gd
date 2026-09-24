@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 var movespeed = 500
-var bullet = preload("res://scenes/bullet.tscn")
+var bullet = preload("res://scenes/minigameScenes/bullet.tscn")
 
 func _physics_process(delta: float) -> void:
 	var motion = Vector2.ZERO
@@ -35,7 +35,7 @@ func kill() -> void:
 	# ważne, gdy ta scena jest osadzona jako minigierka wewnątrz innej sceny.
 	var world = get_parent()
 	var world_parent = world.get_parent()
-	var fresh_world = load("res://scenes/shooter_game.tscn").instantiate()
+	var fresh_world = load("res://scenes/minigameScenes/shooter_game.tscn").instantiate()
 	world.call_deferred("queue_free")
 	world_parent.call_deferred("add_child", fresh_world)
 

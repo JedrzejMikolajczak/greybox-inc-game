@@ -1,11 +1,11 @@
 [gd_scene format=4 uid="uid://dooweq2mty671"]
 
 [ext_resource type="Texture2D" uid="uid://dbyuuhpe1d4fl" path="res://sprites/player.png" id="1_n1i7i"]
-[ext_resource type="Script" uid="uid://fi011hvx54l3" path="res://scripts/player_shooter_game.gd" id="1_sjo0n"]
-[ext_resource type="PackedScene" uid="uid://bqm8hq32oq6qm" path="res://scenes/enemy.tscn" id="3_ix40i"]
+[ext_resource type="Script" uid="uid://fi011hvx54l3" path="res://scripts/minigameScripts/player_shooter_game.gd" id="1_sjo0n"]
+[ext_resource type="PackedScene" uid="uid://bqm8hq32oq6qm" path="res://scenes/minigameScenes/enemy.tscn" id="3_ix40i"]
 [ext_resource type="TileSet" uid="uid://dkc0tlbev25d" path="res://assets/wall.tres" id="4_wall"]
 [ext_resource type="Texture2D" uid="uid://c3io6ayijnfb7" path="res://sprites/light.png" id="5_light"]
-[ext_resource type="Script" uid="uid://cv2vucapjsywa" path="res://scripts/shooter_game.gd" id="6_shooter"]
+[ext_resource type="Script" uid="uid://cv2vucapjsywa" path="res://scripts/minigameScripts/shooter_game.gd" id="6_shooter"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gs5l0"]
 size = Vector2(64, 64)

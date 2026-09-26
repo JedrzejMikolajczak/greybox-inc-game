@@ -7,5 +7,5 @@ func _physics_process(delta: float) -> void:
 	look_at(player.position)
 
 func die() -> void:
-	GameState.usd += GameState.usd_per_kill
+	GameState.goon_points += GameState.goon_points_per_kill
 	queue_free()

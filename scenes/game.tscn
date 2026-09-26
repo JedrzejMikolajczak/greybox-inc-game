@@ -6,11 +6,23 @@
 [ext_resource type="PackedScene" uid="uid://dooweq2mty671" path="res://scenes/minigameScenes/shooter_game.tscn" id="3_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://bd6erdh4orqdy" path="res://sprites/testBarSprites/over.png" id="3_u5sy4"]
 [ext_resource type="Texture2D" uid="uid://34xf5nh3ypx5" path="res://sprites/testBarSprites/progress.png" id="4_gee14"]
+[ext_resource type="Script" uid="uid://dyjjmwbvfe0sb" path="res://scripts/upgrade_tree.gd" id="5_tree"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gs5l0"]
 font_size = 100
 
 [sub_resource type="Theme" id="Theme_gs5l0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tree"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.13, 0.13, 0.15, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="Animation" id="Animation_p57ef"]
 length = 0.001
@@ -118,22 +130,24 @@ text = "upgrade"
 visible = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="UpgradesWindow" unique_id=1185688430]
+layer = 10
 visible = false
 
 [node name="UpgradesPanel" type="PanelContainer" parent="UpgradesWindow/CanvasLayer" unique_id=647364816]
-custom_minimum_size = Vector2(800, 600)
+custom_minimum_size = Vector2(1400, 1000)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -300.0
-offset_right = 400.0
-offset_bottom = 300.0
+offset_left = -700.0
+offset_top = -500.0
+offset_right = 700.0
+offset_bottom = 500.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_gs5l0")
+theme_override_styles/panel = SubResource("StyleBoxFlat_tree")
 
 [node name="MainVBox" type="VBoxContainer" parent="UpgradesWindow/CanvasLayer/UpgradesPanel" unique_id=1684725906]
 layout_mode = 2
@@ -145,7 +159,7 @@ layout_mode = 2
 [node name="Title" type="Label" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/Header" unique_id=195618045]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Ulepszenia"
+text = "Drzewko ulepszeń (przeciągnij tło, żeby przesunąć)"
 
 [node name="CloseButton" type="Button" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/Header" unique_id=479724489]
 custom_minimum_size = Vector2(40, 40)
@@ -156,14 +170,15 @@ text = "X"
 [node name="HSeparator" type="HSeparator" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox" unique_id=-982985249]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox" unique_id=-572152232]
+[node name="TreeView" type="Control" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox" unique_id=-572152232]
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("5_tree")
 
-[node name="UpgradesList" type="VBoxContainer" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/ScrollContainer" unique_id=-107364001]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 8
+[node name="TreeCanvas" type="Control" parent="UpgradesWindow/CanvasLayer/UpgradesPanel/MainVBox/TreeView" unique_id=-107364001]
+anchors_preset = 0
+mouse_filter = 2
 
 [node name="Settings" type="Node2D" parent="." unique_id=674701406]
 
@@ -214,18 +229,18 @@ render_target_update_mode = 0
 wait_time = 10.0
 one_shot = true
 
-[node name="QuickUpgradesUSD" type="VBoxContainer" parent="." unique_id=1602839447]
+[node name="QuickUpgrades" type="VBoxContainer" parent="." unique_id=1602839447]
 offset_left = 550.0
 offset_top = -200.0
 offset_right = 950.0
 offset_bottom = -140.0
 theme_override_constants/separation = 8
 
-[node name="UsdLabel" type="Label" parent="QuickUpgradesUSD" unique_id=1602839448]
+[node name="StatsLabel" type="Label" parent="QuickUpgrades" unique_id=1602839448]
 layout_mode = 2
-text = "USD: 0"
+text = "Goon pointy: 0"
 
-[node name="UsdButtonsList" type="VBoxContainer" parent="QuickUpgradesUSD" unique_id=1602839449]
+[node name="UpgradesList" type="VBoxContainer" parent="QuickUpgrades" unique_id=1602839449]
 layout_mode = 2
 theme_override_constants/separation = 8
 
